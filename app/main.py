@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from psycopg2.errors import UniqueViolation
 # from . import schemas, models, utils
-from .routers import user
+from .routers import user, auth
 # from .database import get_db
 # import schemas
 # import models
@@ -12,6 +12,7 @@ from .routers import user
 app = FastAPI()
 
 app.include_router(user.router)
+app.include_router(auth.router)
 
 
 @app.get("/")

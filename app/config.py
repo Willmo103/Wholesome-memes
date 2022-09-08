@@ -10,6 +10,9 @@ class Settings(BaseSettings):
     secret_key: str
     algorithm: str
     access_token_expire_minutes: int
+    client_id: str
+    client_secret: str
+    user_agent: str
 
     class Config:
         env_file = ".env"
@@ -28,3 +31,6 @@ settings = Settings()
 # SECRET_KEY=
 # ALGORITHM=
 # ACCESS_TOKEN_EXPIRE_MINUTES=
+# CLIENT_ID=
+# CLIENT_SECRET=
+# USER_AGENT=
