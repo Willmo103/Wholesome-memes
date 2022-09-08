@@ -24,3 +24,7 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = '../.env'
+
+
+# initialize an instance of this class to import elsewhere
+settings = Settings()
