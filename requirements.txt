@@ -19,6 +19,7 @@ Mako==1.2.1
 MarkupSafe==2.1.1
 orjson==3.8.0
 passlib==1.7.4
+psycopg2==2.9.3
 pydantic==1.9.2
 python-dotenv==0.20.0
 python-multipart==0.0.5
