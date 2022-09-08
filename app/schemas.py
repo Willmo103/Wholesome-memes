@@ -2,12 +2,12 @@ from pydantic import BaseModel, EmailStr
 from datetime import datetime
 
 
-# class User(BaseModel):
-#     id: int
-#     email: EmailStr
-#     password: str
-#     created_at: datetime
-#
+class UserUpdate(BaseModel):
+    email: EmailStr
+    password: str
+    new_email: EmailStr
+    new_password: str
+
 
 class UserNew(BaseModel):
     email: EmailStr

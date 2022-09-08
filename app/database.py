@@ -6,7 +6,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 # import for pydantic settings model for .env file
-from config import settings
+from .config import settings
 
 # using an f-string to call all of my env variables from settings instance
 SQLALCHEMY_DATABASE_URL = f'postgresql://{settings.database_username}:{settings.database_password}@' \
