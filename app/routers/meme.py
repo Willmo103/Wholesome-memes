@@ -32,3 +32,6 @@ def get_memes(id: int, db: Session = Depends(get_db)):
         )
 
     return meme
+
+
+
