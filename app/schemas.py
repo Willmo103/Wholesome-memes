@@ -41,9 +41,17 @@ class MemeData(BaseModel):
     url: str
 
 
-class MemeOut(BaseModel):
+class Meme(BaseModel):
     id: int
     url: str
     created_at: datetime
 
+    class Config:
+        orm_mode: True
 
+
+class MemeOut(BaseModel):
+    Meme: Meme
+
+    class Config:
+        orm_mode: True

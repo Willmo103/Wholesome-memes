@@ -33,7 +33,9 @@ def collect_meme_urls() -> list[str]:
 def save_meme_urls(conn, cursor):
     urls = collect_meme_urls()
     for url in urls:
-        cursor.execute(f"""INSERT INTO memes (url) VALUES ('{url}')""")
+        duplicate = cursor.execute(f"""SELECT * FROM memes WHERE url='{url}' """)
+        if duplicate is not None:
+            cursor.execute(f"""INSERT INTO memes (url) VALUES ('{url}')""")
     conn.commit()
 
 
