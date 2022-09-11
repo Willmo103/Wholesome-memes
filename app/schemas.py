@@ -35,3 +35,15 @@ class TokenData(BaseModel):
 class Token(BaseModel):
     access_token: str
     token_type: str
+
+
+class MemeData(BaseModel):
+    url: str
+
+
+class MemeOut(BaseModel):
+    id: int
+    url: str
+    created_at: datetime
+
+

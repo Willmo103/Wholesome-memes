@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     user_agent: str
 
     class Config:
-        env_file = ".env"
+        env_file = "C:\\Users\willm\Desktop\Meme project\.env"
 
 
 # initialize an instance of this class to import elsewhere

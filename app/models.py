@@ -32,3 +32,26 @@ class User(Base):
     )
 
 
+class Meme(Base):
+    __tablename__ = "memes"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+        nullable=False
+    )
+
+    url = Column(
+        String,
+        nullable=False,
+    )
+
+    created_at = Column(
+        TIMESTAMP(
+            timezone=True
+        ),
+        nullable=False,
+        server_default=text("now()")
+    )
+
+

@@ -1,7 +1,10 @@
 import praw
 from app.config import settings
+import time
+import psycopg2
+from psycopg2.extras import RealDictCursor
 
-# get the env variables from the .env file
+# Reddit API credentials from the .env file
 CLIENT_ID = settings.client_id
 CLIENT_SECRET = settings.client_secret
 USER_AGENT = settings.user_agent
@@ -16,12 +19,43 @@ def create_reddit_client():
     return client
 
 
-def get_image_urls():
+def collect_meme_urls() -> list[str]:
+    output = []
     client = create_reddit_client()
     hot_posts = client.subreddit("memes").hot(limit=25)
     for post in hot_posts:
-        print(post.url)
+        url = post.url
+        if url.endswith("gif") or url.endswith("jpg"):
+            output.append(url)
+    return output
+
+
+def save_meme_urls(conn, cursor):
+    urls = collect_meme_urls()
+    for url in urls:
+        cursor.execute(f"""INSERT INTO memes (url) VALUES ('{url}')""")
+    conn.commit()
 
 
 if __name__ == '__main__':
-    get_image_urls()
+
+    # establish connection
+    while True:
+        try:
+            connection = psycopg2.connect(
+                host=settings.database_hostname,
+                database=settings.database_name,
+                user=settings.database_username,
+                password=settings.database_password,
+                cursor_factory=RealDictCursor
+            )
+            cursor = connection.cursor()
+            print("Database connection was successful")
+            break
+
+        except Exception as error:
+            print("connection to database failed")
+            print("Error: ", error)
+            time.sleep(2)
+
+    save_meme_urls(connection, cursor)
