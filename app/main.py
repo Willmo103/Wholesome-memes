@@ -1,13 +1,6 @@
-from fastapi import FastAPI, status, HTTPException, Depends
-from sqlalchemy.orm import Session
-from sqlalchemy.exc import IntegrityError
-from psycopg2.errors import UniqueViolation
-# from . import schemas, models, utils
+from fastapi import FastAPI
 from .routers import user, auth, meme
-# from .database import get_db
-# import schemas
-# import models
-# import utils
+
 
 app = FastAPI()
 

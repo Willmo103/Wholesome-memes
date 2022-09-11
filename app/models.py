@@ -55,3 +55,23 @@ class Meme(Base):
     )
 
 
+class Save(Base):
+    __tablename__ = "save"
+
+    user_id = Column(
+        Integer,
+        ForeignKey(
+            "users.id",
+            ondelete="CASCADE"
+        ),
+        primary_key=True
+    )
+
+    meme_id = Column(
+        Integer,
+        ForeignKey(
+            "memes.id",
+            ondelete="CASCADE"
+        ),
+        primary_key=True
+    )
