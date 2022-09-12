@@ -3,13 +3,6 @@ from datetime import datetime
 from typing import Optional, List
 
 
-class UserUpdate(BaseModel):
-    email: EmailStr
-    password: str
-    new_email: EmailStr
-    new_password: str
-
-
 class UserNew(BaseModel):
     email: EmailStr
     password: str

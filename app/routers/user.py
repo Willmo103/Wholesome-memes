@@ -23,32 +23,31 @@ def get_user(
     # returns a JSON version of the user for the user page
 
 
-# @router.put("/{id}", response_model=schemas.UserOut)
-# def update_user(id: int, user_data: schemas.UserNew, db: Session = Depends(get_db)):
-#
-#     # we want to query this post several times
-#     user_query = db.query(models.User).filter(models.User.id == id)
-#     user = user_query.first()
-#
-#     if user is None:
-#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-#                             detail=f"user with id: {id} was not found.")
-#
-#
-#     # auth validation here in the future
-#
-#     if utils.password_hash(user_data.password) == user.password:
-#         hashed_password = utils.password_hash(user_data.password)
-#         user_data.password = hashed_password
-#         user_query.update(user_data.dict(), synchronize_session=False)
-#         db.commit()
-#     else:
-#         raise HTTPException(
-#             status_code=status.HTTP_401_UNAUTHORIZED,
-#             detail="Incorrect password"
-#         )
-#     return user_query.first()
+@router.put("/{id}", response_model=schemas.UserOut)
+def update_user(id: int,
+                user_data: schemas.UserNew,
+                db: Session = Depends(get_db),
+                current_user: int = Depends(get_current_user)
+                ):
 
+    # we want to query this post several times
+    user_query = db.query(models.User).filter(models.User.id == id)
+    user = user_query.first()
+
+    if user is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"user with id: {id} was not found.")
+
+    if id != current_user.id:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail=f"Unauthorized to update user other than current user")
+
+    new_password = utils.password_hash(user_data.password)
+    user_data.password = new_password
+    user_query.update(user_data.dict(), synchronize_session=False)
+    db.commit()
+
+    return user_query.first()
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.UserOut)

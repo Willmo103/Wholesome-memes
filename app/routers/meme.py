@@ -9,10 +9,12 @@ router = APIRouter(
 )
 
 
+# Endpoint where all memes will be returned
 @router.get("/")
 def get_all_memes(db: Session = Depends(get_db)):
+    # SELECT * FROM memes
     memes = db.query(models.Meme).all()
-    print(memes)
+    # print(memes)
     if memes is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -22,8 +24,10 @@ def get_all_memes(db: Session = Depends(get_db)):
     return memes
 
 
+# Endpoint where a single meme will be returned via an id
 @router.get("/{id}")
 def get_memes(id: int, db: Session = Depends(get_db)):
+    # SELECT * FROM memes WHERE id=
     meme = db.query(models.Meme).filter(models.Meme.id == id).first()
     if meme is None:
         raise HTTPException(
