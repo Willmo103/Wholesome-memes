@@ -1,7 +1,9 @@
-from .. import models
-from fastapi import status, HTTPException, Depends,  APIRouter
+from fastapi import Response
+from .. import models, schemas
+from fastapi import status, HTTPException, Depends, APIRouter
 from sqlalchemy.orm import Session
 from ..database import get_db
+from ..config import settings
 
 router = APIRouter(
     prefix="/memes",
@@ -38,4 +40,28 @@ def get_memes(id: int, db: Session = Depends(get_db)):
     return meme
 
 
+@router.delete("/{id}")
+def delete_meme(
+        id: int,
+        secret: schemas.AdminUser,
+        db: Session = Depends(get_db),
+):
 
+    meme_query = db.query(models.Meme).filter(models.Meme.id == id)
+    meme = meme_query.first()
+
+    if meme is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Meme with id: {id} does not exist"
+        )
+
+    if secret.secret != settings.admin_secret:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED
+        )
+
+    meme_query.delete(synchronize_session=False)
+    db.commit()
+
+    return Response(status_code=status.HTTP_204_NO_CONTENT)

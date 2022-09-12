@@ -46,3 +46,6 @@ class Meme(BaseModel):
 class MemeOut(BaseModel):
     memes: List[Meme]
 
+
+class AdminUser(BaseModel):
+    secret: str

@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     client_id: str
     client_secret: str
     user_agent: str
+    admin_secret: str
 
     class Config:
         env_file = "C:\\Users\willm\Desktop\Meme project\.env"
@@ -34,3 +35,4 @@ settings = Settings()
 # CLIENT_ID=
 # CLIENT_SECRET=
 # USER_AGENT=
+# ADMIN_SECRET=
