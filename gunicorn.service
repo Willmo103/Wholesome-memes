@@ -1,0 +1,14 @@
+[unit]
+Description=meme api project
+After=network.target
+
+[Service]
+User=will
+Group=will
+WorkingDirectory=/home/will/app/src
+Environment="PATH=/home/will/app/venv/bin"
+ExecStart=/home/will/app/venv/bin/gunicorn -w 2 -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:8000
+EnvironmentFile=/home/will/.env
+
+[Install]
+WantedBy=multi-user.target
