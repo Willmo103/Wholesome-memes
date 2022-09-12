@@ -1,9 +1,10 @@
-from .. import models, utils, schemas
+from .. import models
 from fastapi import status, HTTPException, Depends, APIRouter, Response
 from sqlalchemy.orm import Session
 from ..database import get_db
 from ..oauth2 import get_current_user
 
+# Route
 router = APIRouter(
     prefix="/save",
     tags=["save"]
@@ -67,3 +68,19 @@ def delete_saved_meme(
     db.commit()
 
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@router.get("/")
+def get_user_memes(
+        current_user: int = Depends(get_current_user),
+        db: Session = Depends(get_db)
+):
+
+    user_memes = []
+    results = db.query(models.Save).filter(models.Save.user_id == current_user.id).all()
+
+    for result in results:
+        meme = db.query(models.Meme).filter(models.Meme.id == result.meme_id).first()
+        user_memes.append(meme)
+
+    return {"memes": user_memes}

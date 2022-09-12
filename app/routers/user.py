@@ -2,6 +2,7 @@ from .. import models, utils, schemas
 from fastapi import status, HTTPException, Depends,  APIRouter
 from sqlalchemy.orm import Session
 from ..database import get_db
+from ..oauth2 import get_current_user
 
 router = APIRouter(
     prefix="/users",
@@ -9,9 +10,12 @@ router = APIRouter(
 )
 
 
-@router.get("/{id}", response_model=schemas.UserOut)
-def get_user(id: int, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.id == id).first()
+@router.get("/", response_model=schemas.UserOut)
+def get_user(
+        db: Session = Depends(get_db),
+        current_user: int = Depends(get_current_user)):
+
+    user = db.query(models.User).filter(models.User.id == current_user.id).first()
     if user is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"user with id: {id} was not found.")
@@ -69,8 +73,3 @@ def create_new_user(user: schemas.UserNew, db: Session = Depends(get_db)):
     db.refresh(new_user)
     return new_user
 
-
-# @router.delete("/{id}")
-# def delete_meme_from_user_collection(id: int):
-#     # delete the memes from a user's favorite memes collection
-#     ...

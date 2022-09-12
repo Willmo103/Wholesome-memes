@@ -1,6 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 
 
 class UserUpdate(BaseModel):
@@ -51,7 +51,5 @@ class Meme(BaseModel):
 
 
 class MemeOut(BaseModel):
-    Meme: Meme
+    memes: List[Meme]
 
-    class Config:
-        orm_mode: True
