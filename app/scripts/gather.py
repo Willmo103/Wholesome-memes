@@ -22,7 +22,7 @@ def create_reddit_client():
 def collect_meme_urls() -> list[str]:
     output = []
     client = create_reddit_client()
-    hot_posts = client.subreddit("memes").hot(limit=25)
+    hot_posts = client.subreddit("memes").hot(limit=50)
     for post in hot_posts:
         url = post.url
         if url.endswith("gif") or url.endswith("jpg"):
@@ -33,9 +33,12 @@ def collect_meme_urls() -> list[str]:
 def save_meme_urls(conn, cursor):
     urls = collect_meme_urls()
     for url in urls:
-        duplicate = cursor.execute(f"""SELECT * FROM memes WHERE url='{url}' """)
-        if duplicate is not None:
+        cursor.execute(f"""SELECT * FROM memes WHERE url='{url}' """)
+        duplicate = cursor.fetchone()
+        # print(duplicate)
+        if duplicate is None:
             cursor.execute(f"""INSERT INTO memes (url) VALUES ('{url}')""")
+            print("added meme")
     conn.commit()
 
 

@@ -10,13 +10,3 @@ app.include_router(meme.router)
 app.include_router(save.router)
 
 
-@app.get("/")
-def get_index():
-    return {"test": "test"}
-
-
-@app.post("/login")
-def user_login():
-    # Logic to validate and set jwt token for user
-    ...
-
