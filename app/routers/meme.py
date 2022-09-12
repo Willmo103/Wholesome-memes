@@ -13,9 +13,9 @@ router = APIRouter(
 
 # Endpoint where all memes will be returned
 @router.get("/")
-def get_all_memes(db: Session = Depends(get_db)):
+def get_all_memes(db: Session = Depends(get_db), limit: int = 5, skip: int = 0):
     # SELECT * FROM memes
-    memes = db.query(models.Meme).all()
+    memes = db.query(models.Meme).limit(limit).offset(skip).all()
     # print(memes)
     if memes is None:
         raise HTTPException(
