@@ -39,6 +39,15 @@ def update_user(id: int,
     if id != current_user.id:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail=f"Unauthorized to update user other than current user")
+    
+    # check to make sure updated email address doesn't already exist in the database
+
+    duplicate_check = db.query(models.User).filter(models.User.email == user_data.email).first()
+
+    if duplicate_check is not None:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT,
+                            detail=f"User with email {user_data.email} already exists")
+
 
     new_password = utils.password_hash(user_data.password)
     user_data.password = new_password
