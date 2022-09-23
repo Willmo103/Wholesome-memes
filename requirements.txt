@@ -24,7 +24,6 @@ Jinja2==3.1.2
 jose==1.0.0
 Mako==1.2.1
 MarkupSafe==2.1.1
-numpy==1.21.6
 orjson==3.8.0
 passlib==1.7.4
 praw==7.6.0
