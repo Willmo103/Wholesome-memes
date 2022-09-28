@@ -4,6 +4,7 @@ from fastapi import status, HTTPException, Depends, APIRouter
 from sqlalchemy.orm import Session
 from ..database import get_db
 from ..config import settings
+from typing import Union
 
 router = APIRouter(
     prefix="/memes",
@@ -13,9 +14,9 @@ router = APIRouter(
 
 # Endpoint where all memes will be returned
 @router.get("/")
-def get_all_memes(db: Session = Depends(get_db), limit: int = 5, skip: int = 0):
+def get_all_memes(db: Session = Depends(get_db)):
     # SELECT * FROM memes
-    memes = db.query(models.Meme).limit(limit).offset(skip).all()
+    memes = db.query(models.Meme).all()
     # print(memes)
     if memes is None:
         raise HTTPException(
@@ -46,7 +47,6 @@ def delete_meme(
         secret: schemas.AdminUser,
         db: Session = Depends(get_db),
 ):
-
     meme_query = db.query(models.Meme).filter(models.Meme.id == id)
     meme = meme_query.first()
 
