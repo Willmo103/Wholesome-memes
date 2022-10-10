@@ -1,6 +1,8 @@
+
 #!/usr/bin/env python3
+
+from datetime import datetime
 import praw
-# from ..config import settings
 import time
 import psycopg2
 from psycopg2.extras import RealDictCursor
@@ -24,7 +26,7 @@ def create_reddit_client():
 def collect_meme_urls():
     output = []
     client = create_reddit_client()
-    hot_posts = client.subreddit("wholesomememes").hot(limit=50)
+    hot_posts = client.subreddit("wholesomememes").hot(limit=100)
     for post in hot_posts:
         url = post.url
         if url.endswith("gif") or url.endswith("jpg"):
@@ -67,5 +69,6 @@ if __name__ == '__main__':
                 print("Error: ", error)
                 time.sleep(2)
 
+        print(datetime.now())
         save_meme_urls(connection, cursor)
-        time.sleep(3600)
+        time.sleep(7200)

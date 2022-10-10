@@ -1,4 +1,4 @@
-#!
+#! /bin/bash
 
 source /home/will/app/venv/bin/activate
 nohup python /home/will/app/src/app/scripts/gather.py >> /home/will/app/src/app/scripts/gather.log &
