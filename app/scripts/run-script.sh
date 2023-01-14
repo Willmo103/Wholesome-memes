@@ -1,5 +1,8 @@
 #!
 
 source /home/will/app/venv/bin/activate
-nohup python /home/will/app/app/scripts/gather.py >> /home/will/app/app/scripts/gather.log &
-ps -fA | grep /home/will/app/app/scripts/gather.py >> gather-pid.log
+python /home/will/app/app/scripts/gather.py >> /home/will/app/app/scripts/gather.log
+echo "---" >> /home/will/app/app/scripts/gather.log
+deactivate
+
+# cronjob this script (*/0,*/30 * * * * )
