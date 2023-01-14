@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 from routers import user, auth, meme, save
 from starlette.middleware.cors import CORSMiddleware
+import os
 
+gathering = False
 
 app = FastAPI()
 
@@ -20,4 +22,6 @@ app.include_router(auth.router)
 app.include_router(meme.router)
 app.include_router(save.router)
 
-
+if not gathering:
+    os.system("cd ~/app/")
+    os.system("source scripts")
