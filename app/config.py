@@ -3,7 +3,7 @@ from pydantic import BaseSettings
 
 class Settings(BaseSettings):
     database_hostname: str
-    database_port: str
+    database_port: int
     database_password: str
     database_name: str
     database_username: str
@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     admin_secret: str
 
     class Config:
-        env_file = "C:\\Users\willm\Desktop\Meme project\.env"
+        env_file = "C:\\Users\willm\Documents\GitHub\Meme-project\\.env"
 
 
 # initialize an instance of this class to import elsewhere

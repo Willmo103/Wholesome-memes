@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 from routers import user, auth, meme, save
 from starlette.middleware.cors import CORSMiddleware
 import os
@@ -6,6 +8,8 @@ import os
 gathering = False
 
 app = FastAPI()
+
+templates = Jinja2Templates("templates/")
 
 origins = ["*"]
 
@@ -22,6 +26,4 @@ app.include_router(auth.router)
 app.include_router(meme.router)
 app.include_router(save.router)
 
-if not gathering:
-    os.system("cd ~/app/")
-    os.system("source scripts")
+app.get("")
