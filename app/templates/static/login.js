@@ -49,7 +49,7 @@ window.addEventListener("load", () => {
         if (data.access_token) {
           //   console.log(data.access_token);
           localStorage.setItem("token", data.access_token);
-          window.location.href = "/home";
+          window.location.href = "/mymemes";
         } else {
           window.alert("Invalid Login");
         }

@@ -29,25 +29,30 @@ function logout() {
 }
 
 window.addEventListener("load", function () {
-  if (!localStorage.getItem("token")) {
-    window.location.href = "index.html";
+  let token = localStorage.getItem("token");
+  if (!token) {
+    window.location = "home";
   }
   let current = 0;
   let memes = getUserMemes();
-  let token = localStorage.getItem("token");
   const img = document.getElementById("image");
   const backBtn = document.getElementById("back");
   const nextBtn = document.getElementById("next");
   const linksDiv = document.getElementById("links");
   const deleteBtn = document.getElementById("save");
-
-  if (current <= 0) {
-    backBtn.style.visibility = "none";
+  const indexCheck = (index, length) => {
+    length -= 1;
+    if (index == length) {
+      nextBtn.style.visibility = "hidden";
+      return;
+    }
+    if (index == 0) {
+      backBtn.style.visibility = "hidden";
+      return;
+    }
     nextBtn.style.visibility = "visible";
-  } else if (current >= memes.length) {
     backBtn.style.visibility = "visible";
-    nextBtn.style.visibility = "none";
-  }
+  };
 
   if (token) {
     linksDiv.innerHTML = `
@@ -73,20 +78,17 @@ window.addEventListener("load", function () {
     } else {
       img.src = memes[current].url;
     }
+    indexCheck(current, memes.length);
   });
 
   nextBtn.addEventListener("click", function () {
-    current += 1;
     if (current >= memes.length - 1) {
-      let moreMemes = getUserMemes();
-      setTimeout(function () {
-        memes = memes.concat(moreMemes);
-      }, 1000);
-    }
-
-    if (current !== memes.length) {
+      current = memes.length - 1;
+    } else {
+      current += 1;
       img.src = memes[current].url;
     }
+    indexCheck(current, memes.length);
   });
 
   deleteBtn.addEventListener("click", function () {

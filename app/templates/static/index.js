@@ -1,4 +1,4 @@
-function getMemes(limit = 25, skip = 175) {
+function getMemes() {
   let memeArr = [];
   fetch(`http://localhost:8000/memes`, {
     method: "GET",
@@ -31,6 +31,19 @@ window.addEventListener("load", function () {
   const nextBtn = document.getElementById("next");
   const linksDiv = document.getElementById("links");
   const saveBtn = document.getElementById("save");
+  const indexCheck = (index, length) => {
+    length -= 1;
+    if (index == length) {
+      nextBtn.style.visibility = "hidden";
+      return;
+    }
+    if (index == 0) {
+      backBtn.style.visibility = "hidden";
+      return;
+    }
+    nextBtn.style.visibility = "visible";
+    backBtn.style.visibility = "visible";
+  };
 
   if (token) {
     linksDiv.innerHTML = `
@@ -46,6 +59,7 @@ window.addEventListener("load", function () {
 
   setTimeout(function () {
     img.src = memes[current].url;
+    indexCheck(current, memes.length);
   }, 1000);
 
   backBtn.addEventListener("click", function () {
@@ -55,22 +69,17 @@ window.addEventListener("load", function () {
     } else {
       img.src = memes[current].url;
     }
+    indexCheck(current, memes.length);
   });
 
   nextBtn.addEventListener("click", function () {
-    current += 1;
     if (current >= memes.length - 1) {
-      let limit = 25;
-      skip += 25;
-      let moreMemes = getMemes(limit, skip);
-      setTimeout(function () {
-        memes = memes.concat(moreMemes);
-      }, 1000);
-    }
-
-    if (current !== memes.length) {
+      current = memes.length - 1;
+    } else {
+      current += 1;
       img.src = memes[current].url;
     }
+    indexCheck(current, memes.length);
   });
 
   saveBtn.addEventListener("click", function () {

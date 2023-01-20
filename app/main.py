@@ -1,13 +1,9 @@
-from fastapi import FastAPI, Request, Depends
+from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from routers import user, auth, meme, save
+from app.routers import user, auth, meme, save
 from starlette.middleware.cors import CORSMiddleware
 from starlette.staticfiles import StaticFiles
-from sqlalchemy.orm import Session
-from .database import get_db
-import app.models as models
-from typing import Union
 from pathlib import Path
 
 # Initialize App as 'app'
@@ -44,10 +40,12 @@ app.include_router(save.router)
 def home_page(req: Request):
     return templates.TemplateResponse("index.html", {"request": req})
 
+
 @app.get("/login", response_class=HTMLResponse)
 def login_page(req: Request):
-    return templates.TemplateResponse("login.html", {'request': req})
+    return templates.TemplateResponse("login.html", {"request": req})
+
 
 @app.get("/mymemes", response_class=HTMLResponse)
 def user_memes(req: Request):
-    return templates.TemplateResponse("mymemes.html", {'request': req})
+    return templates.TemplateResponse("mymemes.html", {"request": req})
