@@ -1,0 +1,14 @@
+[unit]
+Description=notes_api
+After=network.target
+
+[Service]
+User=will
+Group=will
+WorkingDirectory=/home/will/notes_api
+Environment="PATH=/home/will/notes_api/venv/bin"
+ExecStart=/home/will/notes_api/venv/bin/gunicorn -w 2 -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:4200
+EnvironmentFile=/home/will/notes_api/.env
+
+[Install]
+WantedBy=multi-user.target
