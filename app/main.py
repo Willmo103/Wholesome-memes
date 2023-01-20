@@ -3,23 +3,27 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from routers import user, auth, meme, save
 from starlette.middleware.cors import CORSMiddleware
+from starlette.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from .database import get_db
 import app.models as models
 from typing import Union
 from pathlib import Path
 
-
+# Initialize App as 'app'
 app = FastAPI()
 
-# templates = Jinja2Templates(
-#     "C:\\Users\\willm\\Documents\\GitHub\\Meme-project\\app\\templates"
-# )
+# Creating a path object for the templates folder
+templates_folder = Path(__file__).parent / "templates"
 
-templates = Jinja2Templates(
-    "C:\\Users\\willm\\Desktop\\Meme project\\app"
-)
+# Creating a path object for the static folder within the templates folder
+static_folder = templates_folder / "static"
 
+# Static and templates initialization
+app.mount("/static", StaticFiles(directory=static_folder), name="static")
+templates = Jinja2Templates(templates_folder)
+
+# list of accepted origins
 origins = ["*"]
 
 app.add_middleware(
@@ -37,13 +41,13 @@ app.include_router(save.router)
 
 
 @app.get("/home", response_class=HTMLResponse)
-def home_page(
-    req: Request,
-    db: Session = Depends(get_db),
-    limit: int | None = 5,
-    skip: int = 0,
-):
-    # SELECT * FROM memes
-    memes = db.query(models.Meme).limit(limit).offset(skip).all()
-    # print(memes)
-    return templates.TemplateResponse("home.html", {"request": req, "memes": memes})
+def home_page(req: Request):
+    return templates.TemplateResponse("index.html", {"request": req})
+
+@app.get("/login", response_class=HTMLResponse)
+def login_page(req: Request):
+    return templates.TemplateResponse("login.html", {'request': req})
+
+@app.get("/mymemes", response_class=HTMLResponse)
+def user_memes(req: Request):
+    return templates.TemplateResponse("mymemes.html", {'request': req})
