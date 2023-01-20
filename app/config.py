@@ -15,9 +15,11 @@ class Settings(BaseSettings):
     user_agent: str
     admin_secret: str
 
-    class Config:
-        env_file = "C:\\Users\willm\Documents\GitHub\Meme-project\\.env"
+    # class Config:
+    #     env_file = "C:\\Users\willm\Documents\GitHub\Meme-project\\.env"
 
+    class Config:
+        env_file = "C:\\Users\\willm\\Desktop\\Meme project\\.env"
 
 # initialize an instance of this class to import elsewhere
 settings = Settings()

@@ -12,8 +12,12 @@ from pathlib import Path
 
 app = FastAPI()
 
+# templates = Jinja2Templates(
+#     "C:\\Users\\willm\\Documents\\GitHub\\Meme-project\\app\\templates"
+# )
+
 templates = Jinja2Templates(
-    "C:\\Users\\willm\\Documents\\GitHub\\Meme-project\\app\\templates"
+    "C:\\Users\\willm\\Desktop\\Meme project\\app"
 )
 
 origins = ["*"]
