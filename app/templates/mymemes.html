@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', path='index.css') }}" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+
+    <script src="{{ url_for('static', path='mymemes.js') }}"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.13.0/dist/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    >
+      </scrip>
+          <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"
+          >
+    </script>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memes</title>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-dark navbar-expand navbar-expand-lg bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="home">HOME</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav" id="links"></ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container center-block text-center">
+      <div
+        class="col center-block"
+        style="align-items: center;"
+      >
+        <img
+          src=""
+          class="img-fluid"
+          alt="oopsie.jpg"
+          id="image"
+          style="max-height: 500px;"
+        />
+      </div>
+      <div class="center-block">
+        <button class="back btn btn-outline-primary m-2" id="back">Back</button>
+        <button class="save btn btn-outline-danger m-2" id="save">
+          delete
+        </button>
+        <button class="next btn btn-outline-primary m-2" id="next">Next</button>
+      </div>
+    </div>
+    <footer class="footer sm text-center">
+      <hr />
+      Will Morris 2022 | <a href="https://github.com/Willmo103">Github</a> |
+      <a
+        href="www.linkedin.com/in/will-morris-a4a653230
+"
+        >LinkedIn</a
+      >
+    </footer>
+  </body>
+</html>

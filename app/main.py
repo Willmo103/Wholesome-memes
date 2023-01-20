@@ -1,27 +1,51 @@
-from fastapi import FastAPI
-from routers import user, auth, meme, save
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from app.routers import user, auth, meme, save
 from starlette.middleware.cors import CORSMiddleware
-import os
+from starlette.staticfiles import StaticFiles
+from pathlib import Path
 
-gathering = False
-
+# Initialize App as 'app'
 app = FastAPI()
 
+# Creating a path object for the templates folder
+templates_folder = Path(__file__).parent / "templates"
+
+# Creating a path object for the static folder within the templates folder
+static_folder = templates_folder / "static"
+
+# Static and templates initialization
+app.mount("/static", StaticFiles(directory=static_folder), name="static")
+templates = Jinja2Templates(templates_folder)
+
+# list of accepted origins
 origins = ["*"]
 
 app.add_middleware(
-        CORSMiddleware,
-        allow_origins=origins,
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(user.router)
 app.include_router(auth.router)
 app.include_router(meme.router)
 app.include_router(save.router)
 
-if not gathering:
-    os.system("cd ~/app/")
-    os.system("source scripts")
+
+@app.get("/home", response_class=HTMLResponse)
+def home_page(req: Request):
+    return templates.TemplateResponse("index.html", {"request": req})
+
+
+@app.get("/login", response_class=HTMLResponse)
+def login_page(req: Request):
+    return templates.TemplateResponse("login.html", {"request": req})
+
+
+@app.get("/mymemes", response_class=HTMLResponse)
+def user_memes(req: Request):
+    return templates.TemplateResponse("mymemes.html", {"request": req})
